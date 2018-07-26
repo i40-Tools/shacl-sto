@@ -37,6 +37,7 @@ public class ConfigManager {
 	private static Model model;
 	private static String inputData;
 	private static String inputShape;
+	private static String labelAndCommentShape;
 	private static String outputReport;
 	
 	public final static String URI_NAMESPACE = "http://uri4uri.net/vocab.html/#";
@@ -59,7 +60,7 @@ public class ConfigManager {
 	public static Properties loadConfig() {
 		prop = new Properties();
 		String dir = System.getProperty("user.dir");
-		File configFile = new File(dir + "/config.ttl");
+		File configFile = new File(dir + "/config.ttl");  // Why is the config file outside of the project dir?
 
 		if (configFile.isFile() == false) {
 			System.out.println("Please especify the configuration file"
@@ -133,6 +134,28 @@ public class ConfigManager {
 		return inputShape;
 	}
 	
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	public static String getLabelAndCommentShape() {
+		String shapePath = "resources/LabelAndCommentShape.ttl";
+		return shapePath;
+	}
+
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getSmallSchemaShape() {
+		String shapePath = "resources/SmallSchemaShape.ttl";
+		return shapePath;
+	}
+
+	
 	/**
 	 * Get the general file path where all the files are located
 	 * 
@@ -146,7 +169,6 @@ public class ConfigManager {
 		String outputReport = loadConfig().getProperty(URI_NAMESPACE + "outputReport");
 		return outputReport;
 	}
-
 
 
 }

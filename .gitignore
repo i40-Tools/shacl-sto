@@ -52,3 +52,5 @@ config.ttl
 
 # Annotation Processing
 .apt_generated/
+/target/
+/.classpath
