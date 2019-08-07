@@ -150,8 +150,31 @@ public class ConfigManager {
 	 * 
 	 * @return
 	 */
-	public static String getSmallSchemaShape() {
-		String shapePath = "resources/SmallSchemaShape.ttl";
+	public static String getSmallStandardShape() {
+		String shapePath = "resources/SmallStandardShape.ttl";
+		return shapePath;
+	}
+
+
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getSmallSchemaShapes() {
+		String shapePath = "resources/SmallSchemaShapes.ttl";
+		return shapePath;
+	}
+
+
+
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getFullSchemaShape() {
+		String shapePath = "resources/stoShape.ttl";
 		return shapePath;
 	}
 

@@ -15,7 +15,7 @@ sto:SmallSchemaShape
     sh:targetClass sto:Standard ;
 
     sh:property [
-      rdfs:comment "This is an unnecessary repitition of the shape's target clause and will always be true."@en ;
+      rdfs:comment "This is an unnecessary repetition of the shape's target clause and will always be true."@en ;
       sh:path rdf:type ;
       sh:minCount 1 ;
     ] ;

@@ -1,0 +1,115 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sto: <https://w3id.org/i40/sto#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix lingg: <http://purl.org/linguistics/gold/> .
+
+
+sto:SmallClassShape
+    a sh:NodeShape ; 
+    rdfs:label "Small Class Shape" ;
+    rdfs:comment "This shape checks that all classes have at least a label (@en or xsd:string) and a comment in english."@en ;
+    sh:targetClass owl:Class ;
+
+
+    sh:property [
+      rdfs:comment "This is an unnecessary repetition of the shape's target clause and will always be true."@en ;
+      sh:path rdf:type ;
+      sh:minCount 1 ;
+    ] ;
+    
+    sh:or 
+    (
+      [ sh:path rdfs:label ;
+        sh:datatype rdf:langString ;]
+      [ sh:path rdfs:label ;
+        sh:datatype xsd:string ;]
+    ) ;
+
+    sh:property [
+      sh:path rdfs:comment ;
+      sh:datatype rdf:langString ;
+      sh:minCount 1 ;
+    ] ;
+    
+    .
+
+sto:SmallPropertyShape
+    a sh:NodeShape ; 
+    rdfs:label "Small Property Shape" ;
+    rdfs:comment "This shape checks that all properties have at least a label (@en or xsd:string), a comment in english, and some other stuff."@en ;
+    sh:targetClass rdf:Property ;
+
+    sh:property [
+      rdfs:comment "This is an unnecessary repetition of the shape's target clause and will always be true."@en ;
+      sh:path rdf:type ;
+      sh:minCount 1 ;
+    ] ;
+    
+    sh:or 
+    (
+      [ sh:path rdfs:label ;
+        sh:datatype rdf:langString ;]
+      [ sh:path rdfs:label ;
+        sh:datatype xsd:string ;]
+    ) ;
+
+    sh:property [
+      sh:path rdfs:comment ;
+      sh:datatype rdf:langString ;
+      sh:minCount 1 ;
+    ] ;
+
+    sh:property [
+      sh:path rdfs:domain ;
+      sh:maxCount 1 ;
+    ] ;
+
+    sh:property [
+      sh:path rdfs:range ;
+      sh:maxCount 1 ;
+    ] ;
+    
+    .
+
+sto:SmallInstanceShape
+    a sh:NodeShape ; 
+    rdfs:label "Small Instance Shape" ;
+    rdfs:comment "This shape checks that all instances have at least a label (@en or xsd:string)."@en ;
+    sh:targetClass rdf:Property ;
+
+    sh:property [
+      rdfs:comment "This is an unnecessary repetition of the shape's target clause and will always be true."@en ;
+      sh:path rdf:type ;
+      sh:minCount 1 ;
+    ] ;
+    
+    sh:or 
+    (
+      [ sh:path rdfs:label ;
+        sh:datatype rdf:langString ;]
+      [ sh:path rdfs:label ;
+        sh:datatype xsd:string ;]
+    ) ;
+
+    sh:property [
+      sh:path rdfs:comment ;
+      sh:datatype rdf:langString ;
+      sh:minCount 1 ;
+    ] ;
+    
+    .
+
+
+# Basic entailment axioms:
+owl:DatatypeProperty rdfs:subClassOf rdf:Property .
+owl:AnnotationProperty rdfs:subClassOf rdf:Property .
+owl:ObjectProperty rdfs:subClassOf rdf:Property .
+
+owl:Class rdfs:subClassOf rdf:Resource .
+owl:NamedIndividual rdfs:subClassOf rdf:Resource .
+owl:Property rdfs:subClassOf rdf:Resource .

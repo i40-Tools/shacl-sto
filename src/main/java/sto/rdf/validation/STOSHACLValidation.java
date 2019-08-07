@@ -25,20 +25,21 @@ public class STOSHACLValidation {
 
 	public static void main(String[] args) {
 		STOSHACLValidation validation = new STOSHACLValidation();
-		
-//		validation.runValidation();
-//		validation.runSmallValidation();
-		validation.runMinimalSchemaValidation();
+
+		validation.runValidation();
+		//		validation.runSmallValidation();
+		//		validation.runMinimalSchemaValidation();
 	}
-	
-	
+
+
 	private void runMinimalSchemaValidation() {
 		Model dataModel = JenaUtil.createMemoryModel();
-		dataModel.read("C:/Users/sbader/git/StandardOntology/sto.ttl", FileUtils.langTurtle);
-		
+		//dataModel.read("C:/Users/sbader/git/StandardOntology/sto.ttl", FileUtils.langTurtle);
+		dataModel.read("C:/Users/sbader/git/StandardOntology/concerns.ttl", FileUtils.langTurtle);
+
 		Model shapeModel = JenaUtil.createMemoryModel();
-		shapeModel.read(ConfigManager.getSmallSchemaShape(), FileUtils.langTurtle);
-		
+		shapeModel.read(ConfigManager.getSmallStandardShape(), FileUtils.langTurtle);
+
 
 		// Perform the validation of everything, using the data model
 		// also as the shapes model - you may have them separated
@@ -52,10 +53,10 @@ public class STOSHACLValidation {
 	private void runSmallValidation() {
 		Model dataModel = JenaUtil.createMemoryModel();
 		dataModel.read("C:/Users/sbader/git/StandardOntology/sto.ttl", FileUtils.langTurtle);
-		
+
 		Model shapeModel = JenaUtil.createMemoryModel();
 		shapeModel.read(ConfigManager.getLabelAndCommentShape(), FileUtils.langTurtle);
-		
+
 
 		// Perform the validation of everything, using the data model
 		// also as the shapes model - you may have them separated
@@ -63,31 +64,44 @@ public class STOSHACLValidation {
 
 		// Print violations
 		System.out.println(ModelPrinter.get().print(report.getModel()));
-		
+
 	}
 
 
 	public void runValidation() {
 		try {
-		      String data = ConfigManager.getInputData();
-		      String shape = ConfigManager.getInputShape();
-		      Model dataModel = JenaUtil.createDefaultModel();
-		      dataModel.read(data);
-		      Model shapeModel = JenaUtil.createDefaultModel();
-		      shapeModel.read(shape);
-		      Resource reportResource = 
-		          ValidationUtil.validateModel(dataModel, shapeModel, true);
-		      boolean conforms  = reportResource.getProperty(SH.conforms).getBoolean();
-		      if (!conforms) {
-		        String report = ConfigManager.getOutputReport();
-		        File reportFile = new File(report);
-		        reportFile.createNewFile();     
-		        OutputStream reportOutputStream = new FileOutputStream(reportFile);
-		        RDFDataMgr.write(reportOutputStream, reportResource.getModel(), RDFFormat.TURTLE);
-		        System.out.println("Report generated in: " + reportFile.getAbsolutePath());
-		      }
-		    } catch (Throwable t) {
-		    	System.out.println(t.getMessage());
-		    }
+			String data = "C:/Users/sbader/git/StandardOntology/sto.ttl";
+			String shape = ConfigManager.getFullSchemaShape();
+			Model dataModel = JenaUtil.createDefaultModel();
+			dataModel.read(data);
+			
+
+			dataModel.read("C:/Users/sbader/git/StandardOntology/concerns.ttl");
+			dataModel.read("C:/Users/sbader/git/StandardOntology/frameworks.ttl");
+			
+
+			Model shapeModel = JenaUtil.createMemoryModel();
+//			shapeModel.read(ConfigManager.getLabelAndCommentShape(), FileUtils.langTurtle);
+			shapeModel.read(ConfigManager.getSmallSchemaShapes(), FileUtils.langTurtle);
+
+
+			// Perform the validation of everything, using the data model
+			// also as the shapes model - you may have them separated
+			Resource reportResource = ValidationUtil.validateModel(dataModel, shapeModel, true);
+			boolean conforms  = reportResource.getProperty(SH.conforms).getBoolean();
+			if (!conforms) {
+				String report = ModelPrinter.get().print(reportResource.getModel());
+				File reportFile = new File("output/ValidationReport.ttl");
+				reportFile.createNewFile();     
+				OutputStream reportOutputStream = new FileOutputStream(reportFile);
+				RDFDataMgr.write(reportOutputStream, reportResource.getModel(), RDFFormat.TURTLE);
+				System.out.println("Report generated in: " + reportFile.getAbsolutePath());
+			} else {
+				System.out.println("No validations detected!");
+			}
+				
+		} catch (Throwable t) {
+			System.out.println(t.getMessage());
+		}
 	}
 }

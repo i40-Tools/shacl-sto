@@ -10,7 +10,7 @@
 
 sto:StandardShape
     a sh:NodeShape ;
-    sh:targetClass sto:Standard ;
+    sh:targetClass <http://xmlns.com/foaf/0.1/Document> ;
     sh:property [
       sh:path rdf:type ;
       sh:minCount 1 ;
@@ -20,14 +20,14 @@ sto:StandardShape
       sh:datatype rdf:langString ;
       sh:minCount 1 ;
       sh:severity sh:Violation ;
-      sh:message "All instances of Standards should contain an rdfs:label"@en ;
+      sh:message "All instances of Standards should contain an rdfs:label with a language tag."@en ;
     ] ;
     sh:property [
       sh:path rdfs:comment ;
       sh:datatype rdf:langString ;
       sh:minCount 1 ;
       sh:severity sh:Violation ;
-      sh:message "All instances of Standards should contain an rdfs:comment"@en ;
+      sh:message "All instances of Standards should contain an rdfs:comment with a language tag."@en ;
     ] ;
     sh:property [
       sh:path sto:publisher ;
